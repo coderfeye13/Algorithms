@@ -1,0 +1,371 @@
+https://www.notion.so/Data-Structures-e84f03d14ba54668bffd6b0576ff2d79
+
+
+# Data Structures
+
+Bubble:
+
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class Main {
+            public static void main(String args[]) throws FileNotFoundException {
+                File file = new File ("/Users/furkanyilmaz/Desktop/Bionluk/src/database.txt");
+                int [] numbers = Sorting.bubbleSort(file);
+                for (int item : numbers) {
+                    System.out.print(item + ",");
+                }
+
+            }
+
+        }
+
+```
+
+Methods:
+
+```java
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Sorting {
+
+    public static int[] bubbleSort(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        int[] numbers = new int[70000];
+        int a = 0;
+        while (scanner.hasNextLine()) {
+            numbers[a] = scanner.nextInt();
+            a++;
+        }
+        for (int i = 0; i < numbers.length - 1; ++i) {
+
+            for (int j = 0; j < numbers.length - i - 1; ++j) {
+
+                if (numbers[j + 1] < numbers[j]) {
+
+                    int swap = numbers[j];
+                    numbers[j] = numbers[j + 1];
+                    numbers[j + 1] = swap;
+
+                }
+            }
+        }
+        return numbers;
+    }
+}
+```
+
+```java
+Understanding Implementation
+
+The first step is to create a method, bubbleSort, that takes the array as the input to be sorted,
+sort_arr, and the length of the array, len, as seen on line 3 in the code above.
+
+The second step is to create an outer for loop which will iterate over each element of the array as shown on line 5.
+
+The third step is to create an inner for loop as shown on line 7.
+This for loop starts from the first element of the array till the second last index, (len - i - 1).
+
+Each time one index less than the last is traversed as at the end of each iteration,
+the largest element for that iteration reaches the end.
+Within the nested for loop is the if condition from lines 9 to 15.
+This checks that if the element on the left is greater than that on the right. If so, it swaps the two elements.
+
+Time Complexity
+
+Since there are two nested loops within the algorithm,
+the time complexity will be O(n^2) where n is equivalent to the length of the array to be sorted.
+```
+
+SELECTION
+
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class Main {
+            public static void main(String args[]) throws FileNotFoundException {
+                File file = new File ("/Users/furkanyilmaz/Desktop/Bionluk/src/database.txt");
+                int [] numbers = SelectionSort.selectionSort(file);
+                for (int item : numbers) {
+                    System.out.print(item + ",");
+                }
+
+            }
+
+        }
+```
+
+metot
+
+```java
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+class SelectionSort {
+    public static int[] selectionSort(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        int[] numbers = new int[900000];
+        int a = 0;
+        while (scanner.hasNextLine()) {
+            numbers[a] = scanner.nextInt();
+            a++;
+        }
+        int min, minIndex, temp;
+
+        for(int start = 0; start < numbers.length - 1; start++){
+
+            min = numbers[start];
+            minIndex = start;
+            for(int i = start + 1; i < numbers.length; i++){
+                if(numbers[i] < min){
+                    min = numbers[i];
+                    minIndex = i;
+                }
+            }
+            temp = min;
+            numbers[minIndex] = numbers[start];
+            numbers[start] = temp;
+        }
+        return numbers;
+    }
+}
+```
+
+```java
+Understanding Implementation
+
+Selection sort works by taking the smallest element in an unsorted array and bringing it to the front. 
+You’ll go through each item (from left to right) until you find the smallest one. 
+The first item in the array is now sorted, while the rest of the array is unsorted.
+Time Complexity
+
+This algorithm is not suitable for large data sets as its average and 
+worst case complexities are of Ο(n2), where n is the number of items.
+```
+
+QUICK SORT
+
+main:
+
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) throws FileNotFoundException {
+        File file = new File ("/Users/furkanyilmaz/Desktop/Bionluk/src/database.txt");
+        int [] numbers = QuickSort.quickSort(file);
+        for (int item : numbers) {
+            System.out.print(item + ",");
+        }
+
+    }
+
+}
+```
+
+metot:
+
+```java
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.Arrays;
+
+class QuickSort {
+    public static int[] quickSort(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        int[] numbers = new int[7];
+        int a = 0;
+        while (scanner.hasNextLine()) {
+            numbers[a] = scanner.nextInt();
+            a++;
+        }
+        private static int[] QuickSort(int[] numbers, int elements) {
+                if(elements < 2){     //Base Case
+                    return numbers;
+                }
+
+                int current_position=0;   //position of pivot element
+                int temp; //a temporary variable to assist in swapping
+
+                for(int i=1; i<elements; i++) //Partitioning loop
+                {
+                    if(numbers[i] <= numbers[0])
+                    {
+                        current_position++;
+                        temp = numbers[i];
+                        numbers[i] = numbers[current_position];
+                        numbers[current_position] = temp;
+
+                    }
+                }
+
+                temp = numbers[0];
+                numbers[0] = numbers[current_position];
+                numbers[current_position] = temp;
+
+                int[] left = QuickSort(numbers,current_position);
+
+                int[] arr2 = Arrays.copyOfRange(numbers, current_position+1, elements);
+
+                int[] right = QuickSort(arr2, elements-current_position-1);
+
+                numbers = new int[elements];
+
+                for(int i=0; i<current_position; i++)
+                {
+                    numbers[i] = left[i];
+                }
+                numbers[current_position] = numbers[current_position];
+                for(int i=current_position+1; i<elements; i++)
+                {
+                    numbers[i] = right[i-current_position-1];
+                }
+
+                return numbers;
+
+            }
+        }
+}
+```
+
+```java
+Implementation
+QuickSort can be implemented iteratively and recursively. 
+We’ll mainly focus on the recursive implementation, 
+as it is far more convenient, intuitive and simplistic. 
+Iterative implementation is generally unrecommended. 
+Arrays are used as an example here, but it can be implemented 
+on other data structures (like linked lists) as well.
+
+The algorithm can be broken down into 3 parts.
+
+Partitioning the array about the pivot
+Passing the smaller arrays to the recursive calls
+Joining the sorted arrays that are returned from the recursive call, and 
+the pivot.
+
+Time Complexity
+
+For big datasets, the technique is highly efficient since its average and 
+best-case complexity is O(n*logn).
+```
+
+MERGE SORT
+
+main:
+
+```java
+import java.io.*;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String args[]) throws FileNotFoundException {
+        File file = new File ("/Users/furkanyilmaz/Desktop/Bionluk/src/database.txt");
+        int [] numbers = MergeSort.mergeSort(file);
+        for (int item : numbers) {
+            System.out.print(item + ",");
+        }
+
+    }
+
+}
+```
+
+metot:
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import static java.io.ObjectInputFilter.merge;
+
+public class MergeSort {
+    public static void mergeSort(File file, int[] left_arr, int[] right_arr, int[] arr, int left_size, int right_size ) throws FileNotFoundException, FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+
+        int i=0,l=0,r = 0;
+        //The while loops check the conditions for merging
+        while(l<left_size && r<right_size){
+
+            if(left_arr[l]<right_arr[r]){
+                arr[i++] = left_arr[l++];
+            }
+            else{
+                arr[i++] = right_arr[r++];
+            }
+        }
+        while(l<left_size){
+            arr[i++] = left_arr[l++];
+        }
+        while(r<right_size){
+            arr[i++] = right_arr[r++];
+        }
+    }
+
+    public static void mergeSort(int [] arr, int len){
+        if (len < 2){return;}
+
+        int mid = len / 2;
+        int [] left_arr = new int[mid];
+        int [] right_arr = new int[len-mid];
+
+        int k = 0;
+        for(int i = 0;i<len;++i){
+            if(i<mid){
+                left_arr[i] = arr[i];
+            }
+            else{
+                right_arr[k] = arr[i];
+                k = k+1;
+            }
+        }
+
+        mergeSort(left_arr,mid);
+        mergeSort(right_arr,len-mid);
+        merge(left_arr,right_arr,arr,mid,len-mid);
+    }
+
+    private static void merge(int[] left_arr, int[] right_arr, int[] arr, int mid, int i) {
+    }
+
+    public static int[] mergeSort(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        int[] numbers = new int[7];
+        int a = 0;
+        while (scanner.hasNextLine()) {
+            numbers[a] = scanner.nextInt();
+            a++;
+        }
+        return new int[0];
+    }
+}
+
+```java
+Think of it as a recursive algorithm continuously splits the array 
+in half until it cannot be further divided. This means that 
+if the array becomes empty or has only one element left, 
+the dividing will stop, i.e. it is the base case to stop the recursion. 
+If the array has multiple elements, split the array into halves and recursively 
+invoke the merge sort on each of the halves. Finally, when both halves are 
+sorted, the merge operation is applied. Merge operation is the process 
+of taking two smaller sorted arrays and combining them to eventually 
+make a larger one.
+
+Time Complexity
+
+The time complexity of MergeSort is O(n*Log n)
+```
+
+
+
+```java
+Database oluşturmak için kullanılan websitesi:
+https://freetools.textmagic.com/random-number-generator
+
+```
